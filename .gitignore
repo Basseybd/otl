@@ -8,3 +8,6 @@ out
 next-env.d.ts
 .claude/lessons.md
 .DS_Store
+
+# Photos copied from Pixieset at build time
+public/media/stops/
