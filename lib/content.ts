@@ -55,13 +55,14 @@ export const nextStop: Stop = {
 
 export const feed = {
   title: "Last time on the L",
-  line: "Straight off the dance floor. The full clip lives on the feed.",
+  line: "Straight off the dance floor. Hit play for the full reel, then come find us on the feed.",
   sources: [
     { src: "/media/feed.webm", type: "video/webm" },
     { src: "/media/feed.mp4", type: "video/mp4" },
   ],
   poster: "/media/feed-poster.webp",
-  href: "https://www.instagram.com/reel/DcXCl5lJLpB/",
+  href: "https://www.instagram.com/p/DcXCl5lJLpB/",
+  embed: "https://www.instagram.com/p/DcXCl5lJLpB/embed/",
   alt: "Clips from the dance floor at an OTL party.",
 };
 
