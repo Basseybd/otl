@@ -55,14 +55,13 @@ export const nextStop: Stop = {
 
 export const feed = {
   title: "Last time on the L",
-  line: "Straight off the dance floor. Hit play for the full reel, then come find us on the feed.",
+  line: "Straight off the dance floor. Tap the clip for the full reel, then come find us on the feed.",
   sources: [
     { src: "/media/feed.webm", type: "video/webm" },
     { src: "/media/feed.mp4", type: "video/mp4" },
   ],
   poster: "/media/feed-poster.webp",
   href: "https://www.instagram.com/p/DcXCl5lJLpB/",
-  embed: "https://www.instagram.com/p/DcXCl5lJLpB/embed/",
   alt: "Clips from the dance floor at an OTL party.",
 };
 
@@ -110,7 +109,7 @@ export const pastStops: PastStop[] = [
     photos: [
       { src: px("769986911/142281730cba82d49ec84ce2867a464b-xxlarge.JPG"), alt: "A guest in a flower shirt on the rooftop at Pink Frequency.", width: 1600, height: 2400 },
       { src: px("769986911/8378065f854344cdbf0ca3ec8504e394-xxlarge.JPG"), alt: "Friends in pink, one in a pink cowboy hat, at Pink Frequency.", width: 1600, height: 2400 },
-      { src: px("769986911/08aa2af4f8be0041ee22fde97b9da70b-xxlarge.JPG"), alt: "Friends on the rooftop under a blue sky at Pink Frequency.", width: 1600, height: 2400 },
+      { src: px("769986911/08aa2af4f8be0041ee22fde97b9da70b-xxlarge.jpg"), alt: "Friends on the rooftop under a blue sky at Pink Frequency.", width: 1600, height: 2400 },
       { src: px("769986911/2ada60388f7c059cef0acd13814abf57-xxlarge.JPG"), alt: "A guest in a pink headband on a pink retro phone at Pink Frequency.", width: 1600, height: 2400 },
       { src: px("769986911/8009994c79e9879b23353b7a4806663a-xxlarge.JPG"), alt: "A guest in a pink shirt and sunglasses on the rooftop at Pink Frequency.", width: 1600, height: 2400 },
     ],
