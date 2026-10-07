@@ -345,6 +345,8 @@ html[data-entered="true"] .sitebar { transform: none; }
 }
 .arrivals-photo { display: block; position: relative; overflow: hidden; background: #111; border: 1px solid var(--color-hair); }
 .arrivals-photo.is-lead { grid-row: 1 / span 2; }
+/* Five frames: the lead plus a 2 by 2 grid. */
+.arrivals-photos[data-count="5"] { grid-template-columns: 1.6fr 1fr 1fr; }
 /* One quiet grade for every gallery so warm, red and daylight sets sit together on black. */
 .arrivals-photo img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
