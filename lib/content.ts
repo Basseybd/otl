@@ -66,7 +66,7 @@ export const feed = {
   alt: "Clips from the dance floor at an OTL party.",
 };
 
-/** Past parties, three picked frames each. Photos are OTL's own Pixieset galleries, served through Next's image optimizer. */
+/** Past parties, three picked frames each. Leads are self-hosted (Bassey's own shots); the rest come from OTL's Pixieset galleries through Next's image optimizer. */
 export type Photo = { src: string; alt: string; width: number; height: number };
 export type PastStop = {
   slug: string;
@@ -86,12 +86,12 @@ export const pastStops: PastStop[] = [
     name: "OTL Sessions vol. 1",
     short: "Sessions 01",
     date: "2026-09-27",
-    note: "Our first set, recorded live. The mix drops soon.",
+    note: "Recorded DJ sets, live in the room. The first mix drops soon.",
     gallery: "https://offthel.pixieset.com/otlsessions/",
     photos: [
+      { src: px("305125321/c7ae30b9789a8dc83bbede2a50bd0a24-xxlarge.JPG"), alt: "A DJ mixing by candlelight at OTL Sessions vol. 1.", width: 1600, height: 2400 },
       { src: px("305125321/3058906e861858b203ebfeec17d2b84f-cover.JPG"), alt: "The DJ at work in a sunlit room at OTL Sessions vol. 1.", width: 1600, height: 2400 },
-      { src: px("305125321/cb5f76053fb07dadfc3e06cf37893f32-large.JPG"), alt: "A guest grinning at OTL Sessions vol. 1.", width: 640, height: 960 },
-      { src: px("305125321/b8f8d79db1c645e649698acd2c79a665-large.JPG"), alt: "A photographer framing a shot at OTL Sessions vol. 1.", width: 640, height: 960 },
+      { src: px("305125321/8cdaf57088fa510f8a6012373e62c03e-xxlarge.JPG"), alt: "On the decks at OTL Sessions vol. 1.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -102,9 +102,9 @@ export const pastStops: PastStop[] = [
     note: "The Ivory on Park went off.",
     gallery: "https://offthel.pixieset.com/pinkfrequency/",
     photos: [
-      { src: px("769986911/b560d1a74b040246462df00ec0c50529-large.JPG"), alt: "A guest in sunglasses laughing up close at Pink Frequency.", width: 640, height: 960 },
-      { src: px("769986911/3c8550aafa7e54a2b39aa69f54949fd4-large.JPG"), alt: "A guest on the rooftop under a blue sky at Pink Frequency.", width: 640, height: 960 },
-      { src: px("769986911/2ada60388f7c059cef0acd13814abf57-large.JPG"), alt: "A guest in a headband on a pink retro phone at Pink Frequency.", width: 640, height: 960 },
+      { src: "/media/stops/two-lines.webp", alt: "A guest holding two pink retro phones against a blue sky at Pink Frequency.", width: 1600, height: 2400 },
+      { src: px("769986911/2ada60388f7c059cef0acd13814abf57-xxlarge.JPG"), alt: "A guest in a pink headband on a pink retro phone at Pink Frequency.", width: 1600, height: 2400 },
+      { src: px("769986911/8009994c79e9879b23353b7a4806663a-xxlarge.JPG"), alt: "A guest in a pink shirt and sunglasses on the rooftop at Pink Frequency.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -114,9 +114,9 @@ export const pastStops: PastStop[] = [
     date: "2026-07-25",
     gallery: "https://offthel.pixieset.com/jeanandtavsbirthday/",
     photos: [
-      { src: px("789986911/bb8a77ae995974c9263037a83127cb0a-large.JPG"), alt: "The DJ with both hands up behind the decks at Jean and Tav's Birthday.", width: 640, height: 960 },
-      { src: px("789986911/0a93b531484c3c35c82f8ad1870a1b0b-large.JPG"), alt: "A guest in a white dress smiling at Jean and Tav's Birthday.", width: 640, height: 960 },
-      { src: px("789986911/f29e08b10481eaab7a99c5474e36ea01-large.JPG"), alt: "A guest in a green top under red light at Jean and Tav's Birthday.", width: 640, height: 960 },
+      { src: "/media/stops/behind-the-decks.webp", alt: "Two friends laughing behind the DJ booth in red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
+      { src: px("789986911/bb8a77ae995974c9263037a83127cb0a-xxlarge.JPG"), alt: "The DJ with both hands up behind the decks at Jean and Tav's Birthday.", width: 1600, height: 2400 },
+      { src: px("789986911/f29e08b10481eaab7a99c5474e36ea01-xxlarge.JPG"), alt: "A guest in a green top under red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -126,9 +126,9 @@ export const pastStops: PastStop[] = [
     date: "2026-06-07",
     gallery: "https://offthel.pixieset.com/thekickoff/",
     photos: [
-      { src: px("049986911/b154bfe952177ed669ec44e96864d8fd-cover.JPG"), alt: "A guest in a red football jersey smiling at The Kick Off.", width: 1600, height: 2400 },
-      { src: px("049986911/2383d6ff905063652e73676dd52e1516-large.JPG"), alt: "Two friends with a football at The Kick Off.", width: 640, height: 960 },
-      { src: px("049986911/b07b7240dc8a2ec6baad90fd15bfbd61-large.JPG"), alt: "A guest in a white football jersey at The Kick Off.", width: 640, height: 960 },
+      { src: "/media/stops/match-day.webp", alt: "A guest in a red striped football jersey grinning at The Kick Off.", width: 1600, height: 2400 },
+      { src: px("049986911/a208e7833d83382ae9f95e23c5b9ef61-xxlarge.JPG"), alt: "A guest in sunglasses and a yellow top at The Kick Off.", width: 1600, height: 2400 },
+      { src: px("049986911/b07b7240dc8a2ec6baad90fd15bfbd61-xxlarge.JPG"), alt: "A guest in a white football jersey at The Kick Off.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -138,9 +138,9 @@ export const pastStops: PastStop[] = [
     date: "2026-05-02",
     gallery: "https://offthel.pixieset.com/anotherbritparty/",
     photos: [
-      { src: px("445721411/a3feaafa9538d15a72ba40138f116a95-large.jpg"), alt: "Friends laughing together at Another Brit Party.", width: 640, height: 424 },
-      { src: px("445721411/fe0621d85d11538f73e83fc3817fe857-large.jpg"), alt: "A guest throwing up a peace sign at Another Brit Party.", width: 640, height: 424 },
-      { src: px("445721411/c8d46d4c89a5cb59bae969ffa07f0d66-large.jpg"), alt: "The DJ in a gold crown at Another Brit Party.", width: 640, height: 966 },
+      { src: "/media/stops/crowned.webp", alt: "A guest in a gold party crown in a crowd lit pink and amber at Another Brit Party.", width: 1600, height: 2400 },
+      { src: px("445721411/c8d46d4c89a5cb59bae969ffa07f0d66-xxlarge.jpg"), alt: "The DJ in a gold crown at Another Brit Party.", width: 1600, height: 2413 },
+      { src: px("445721411/a3feaafa9538d15a72ba40138f116a95-xxlarge.jpg"), alt: "Friends laughing together at Another Brit Party.", width: 1600, height: 1061 },
     ],
   },
 ];

@@ -348,7 +348,7 @@ html[data-entered="true"] .sitebar { transform: none; }
 /* One quiet grade for every gallery so warm, red and daylight sets sit together on black. */
 .arrivals-photo img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
-  filter: saturate(0.82) contrast(1.04) brightness(0.96);
+  filter: saturate(0.92) contrast(1.03);
   transition: filter 500ms var(--ease-out-expo), transform 700ms var(--ease-out-expo);
 }
 .arrivals-photo::after {
