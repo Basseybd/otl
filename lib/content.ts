@@ -66,7 +66,7 @@ export const feed = {
   alt: "Clips from the dance floor at an OTL party.",
 };
 
-/** Past parties. Photos come from Bassey's picks on OTL's Pixieset (shared selections), at 1600px through Next's image optimizer. Three or five frames each. */
+/** Past parties. Photos come from Bassey's picks on OTL's Pixieset (shared selections), at 1600px through Next's image optimizer. Three frames max per party. */
 export type Photo = { src: string; alt: string; width: number; height: number };
 export type PastStop = {
   slug: string;
@@ -129,8 +129,6 @@ export const pastStops: PastStop[] = [
       { src: px("049986911/1299af3104ca3b816c7af7e1aea3f527-xxlarge.JPG"), alt: "A guest in a red striped football jersey grinning at The Kick Off.", width: 1600, height: 2400 },
       { src: px("049986911/b07b7240dc8a2ec6baad90fd15bfbd61-xxlarge.JPG"), alt: "A guest in a white football jersey at The Kick Off.", width: 1600, height: 2400 },
       { src: px("049986911/a208e7833d83382ae9f95e23c5b9ef61-xxlarge.JPG"), alt: "A guest in sunglasses and a yellow top at The Kick Off.", width: 1600, height: 2400 },
-      { src: px("049986911/9436bdceb63877bd8045441521f4fdc6-xxlarge.JPG"), alt: "Two friends at golden hour at The Kick Off.", width: 1600, height: 2400 },
-      { src: px("049986911/94a4237491098eb8d963d6c46a30e757-xxlarge.JPG"), alt: "Friends in football shirts at The Kick Off.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -143,8 +141,6 @@ export const pastStops: PastStop[] = [
       { src: px("445721411/bab47add8345ec1ad5295fc65485771c-xxlarge.jpg"), alt: "A guest in a gold party crown in a crowd lit pink at Another Brit Party.", width: 1600, height: 2400 },
       { src: px("445721411/c8d46d4c89a5cb59bae969ffa07f0d66-xxlarge.jpg"), alt: "The DJ in a gold crown at Another Brit Party.", width: 1600, height: 2413 },
       { src: px("445721411/81e75738754c6f489ec3b297b39290b7-xxlarge.jpg"), alt: "A guest in a crown and a red England shirt at Another Brit Party.", width: 1600, height: 2400 },
-      { src: px("445721411/e7c03a3825589434b808f55d53018d4f-xxlarge.jpg"), alt: "A Union Jack flag over the crowd at Another Brit Party.", width: 1600, height: 1061 },
-      { src: px("445721411/91bfe055616af0be4182222cdf9a4ba9-xxlarge.jpg"), alt: "A guest in sunglasses throwing a sign at Another Brit Party.", width: 1600, height: 2413 },
     ],
   },
 ];
