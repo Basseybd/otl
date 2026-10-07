@@ -52,8 +52,8 @@ export default function PastStops({ stops, cta }: { stops: PastStop[]; cta: stri
       </div>
 
       <div className="arrivals-panel" id={`${uid}-panel`} role="tabpanel" aria-labelledby={`${uid}-tab-${active}`}>
-        <div className="arrivals-photos" key={stop.slug}>
-          {stop.photos.slice(0, 3).map((p, i) => (
+        <div className="arrivals-photos" data-count={Math.min(stop.photos.length, 5) >= 5 ? 5 : 3} key={stop.slug}>
+          {stop.photos.slice(0, stop.photos.length >= 5 ? 5 : 3).map((p, i) => (
             <a
               key={p.src}
               className={i === 0 ? "arrivals-photo is-lead" : "arrivals-photo"}
@@ -62,7 +62,8 @@ export default function PastStops({ stops, cta }: { stops: PastStop[]; cta: stri
               rel="noopener"
               aria-label={`${p.alt} Opens the full gallery.`}
             >
-              <Image src={p.src} alt={p.alt} width={p.width} height={p.height} sizes={i === 0 ? "(min-width: 900px) 440px, 64vw" : "(min-width: 900px) 220px, 34vw"} />
+              <Image src={p.src} alt={p.alt} width={p.width} height={p.height} sizes={i === 0 ? "(min-width: 900px) 440px, 64vw" : "(min-width: 900px) 220px, 34vw"}
+              />
             </a>
           ))}
         </div>
