@@ -339,12 +339,25 @@ html[data-entered="true"] .sitebar { transform: none; }
 .arrivals-date { font: 400 14px/1 var(--font-mono); letter-spacing: 0.06em; color: var(--color-led); text-shadow: 0 0 8px rgba(255, 176, 0, 0.4); white-space: nowrap; }
 
 .arrivals-panel { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
-.arrivals-photos { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 8px; aspect-ratio: 4 / 3.6; animation: platform-in 520ms var(--ease-out-expo); }
-.ph { display: block; position: relative; overflow: hidden; background: #111; border: 1px solid var(--color-hair); }
-.ph-lead { grid-row: 1 / span 3; }
-.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out-expo); }
-@media (hover: hover) { .ph:hover img { transform: scale(1.04); } }
+.arrivals-photo {
+  display: block; position: relative; overflow: hidden; aspect-ratio: 4 / 3;
+  background: #111; border: 1px solid var(--color-hair);
+  animation: platform-in 520ms var(--ease-out-expo);
+}
+/* One quiet grade for every gallery so warm, red and daylight sets sit together on black. */
+.arrivals-photo img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%;
+  filter: saturate(0.82) contrast(1.04) brightness(0.96);
+  transition: filter 500ms var(--ease-out-expo), transform 700ms var(--ease-out-expo);
+}
+.arrivals-photo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.35));
+}
+@media (hover: hover) {
+  .arrivals-photo:hover img { filter: none; transform: scale(1.02); }
+}
 .arrivals-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
 @keyframes platform-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .arrivals-photos { animation: none; } .ph img { transition: none; } }
-@media (max-width: 480px) { .arrivals-photos { aspect-ratio: 4 / 4.4; } .arrivals-foot .cta { flex: 1 1 100%; } }
+@media (prefers-reduced-motion: reduce) { .arrivals-photo { animation: none; } .arrivals-photo img { transition: none; } }
+@media (max-width: 480px) { .arrivals-photo { aspect-ratio: 4 / 4.6; } .arrivals-foot .cta { flex: 1 1 100%; } }
