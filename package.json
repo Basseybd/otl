@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "node scripts/fetch-photos.mjs && next build",
     "start": "next start",
     "lint": "tsc --noEmit"
   },
-  "engines": { "node": "24.x" },
+  "engines": {
+    "node": "24.x"
+  },
   "dependencies": {
     "@fontsource/archivo": "5.3.0",
     "@fontsource/arimo": "5.3.0",

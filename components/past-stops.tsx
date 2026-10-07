@@ -52,8 +52,8 @@ export default function PastStops({ stops, cta }: { stops: PastStop[]; cta: stri
       </div>
 
       <div className="arrivals-panel" id={`${uid}-panel`} role="tabpanel" aria-labelledby={`${uid}-tab-${active}`}>
-        <div className="arrivals-photos" key={stop.slug}>
-          {stop.photos.slice(0, 3).map((p, i) => (
+        <div className="arrivals-photos" data-count={Math.min(stop.photos.length, 5)} key={stop.slug}>
+          {stop.photos.slice(0, 5).map((p, i) => (
             <a
               key={p.src}
               className={i === 0 ? "arrivals-photo is-lead" : "arrivals-photo"}

@@ -66,7 +66,7 @@ export const feed = {
   alt: "Clips from the dance floor at an OTL party.",
 };
 
-/** Past parties. Photos come from Bassey's picks on OTL's Pixieset (shared selections), at 1600px through Next's image optimizer. Three frames max per party. */
+/** Past parties. Photos come from Bassey's picks on OTL's Pixieset (shared selections), at 1600px through Next's image optimizer. Five frames per party. */
 export type Photo = { src: string; alt: string; width: number; height: number };
 export type PastStop = {
   slug: string;
@@ -78,7 +78,11 @@ export type PastStop = {
   photos: Photo[];
 };
 
-const px = (path: string) => `https://images.pixieset.com/${path}`;
+import photoManifest from "./photo-manifest.json";
+
+// Local copy made at build time (scripts/fetch-photos.mjs) when it exists, Pixieset otherwise.
+const localPhotos = photoManifest as Record<string, string>;
+const px = (path: string) => localPhotos[path] ?? `https://images.pixieset.com/${path}`;
 
 export const pastStops: PastStop[] = [
   {
@@ -92,6 +96,8 @@ export const pastStops: PastStop[] = [
       { src: px("305125321/c7ae30b9789a8dc83bbede2a50bd0a24-xxlarge.JPG"), alt: "A DJ mixing by candlelight at OTL Sessions vol. 1.", width: 1600, height: 2400 },
       { src: px("305125321/3ecfefe1e4a4e34e5ba14194f6fb1454-xxlarge.JPG"), alt: "The DJ in a white hoodie on the decks at OTL Sessions vol. 1.", width: 1600, height: 2366 },
       { src: px("305125321/edd3465a6097d974e58cefadb1288af7-xxlarge.JPG"), alt: "The room around the decks at OTL Sessions vol. 1.", width: 1600, height: 1046 },
+      { src: px("305125321/3058906e861858b203ebfeec17d2b84f-cover.JPG"), alt: "The DJ at work in a sunlit room at OTL Sessions vol. 1.", width: 1600, height: 2400 },
+      { src: px("305125321/8cdaf57088fa510f8a6012373e62c03e-xxlarge.JPG"), alt: "On the decks at OTL Sessions vol. 1.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -105,6 +111,8 @@ export const pastStops: PastStop[] = [
       { src: px("769986911/142281730cba82d49ec84ce2867a464b-xxlarge.JPG"), alt: "A guest in a flower shirt on the rooftop at Pink Frequency.", width: 1600, height: 2400 },
       { src: px("769986911/8378065f854344cdbf0ca3ec8504e394-xxlarge.JPG"), alt: "Friends in pink, one in a pink cowboy hat, at Pink Frequency.", width: 1600, height: 2400 },
       { src: px("769986911/08aa2af4f8be0041ee22fde97b9da70b-xxlarge.JPG"), alt: "Friends on the rooftop under a blue sky at Pink Frequency.", width: 1600, height: 2400 },
+      { src: px("769986911/2ada60388f7c059cef0acd13814abf57-xxlarge.JPG"), alt: "A guest in a pink headband on a pink retro phone at Pink Frequency.", width: 1600, height: 2400 },
+      { src: px("769986911/8009994c79e9879b23353b7a4806663a-xxlarge.JPG"), alt: "A guest in a pink shirt and sunglasses on the rooftop at Pink Frequency.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -117,6 +125,8 @@ export const pastStops: PastStop[] = [
       { src: px("789986911/b282ce502ce13e5e52ab2cf6878fe264-xxlarge.JPG"), alt: "The DJ and friends dancing behind the decks in red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
       { src: px("789986911/c9ec9d1afa21578d5e8d01fc4fde725d-xxlarge.JPG"), alt: "Two friends in white at Jean and Tav's Birthday.", width: 1600, height: 2400 },
       { src: px("789986911/9436d3454e38e07484c8097e8a42eee3-xxlarge.JPG"), alt: "The floor under red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
+      { src: px("789986911/bb8a77ae995974c9263037a83127cb0a-xxlarge.JPG"), alt: "The DJ with both hands up behind the decks at Jean and Tav's Birthday.", width: 1600, height: 2400 },
+      { src: px("789986911/f29e08b10481eaab7a99c5474e36ea01-xxlarge.JPG"), alt: "A guest in a green top under red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -129,6 +139,8 @@ export const pastStops: PastStop[] = [
       { src: px("049986911/1299af3104ca3b816c7af7e1aea3f527-xxlarge.JPG"), alt: "A guest in a red striped football jersey grinning at The Kick Off.", width: 1600, height: 2400 },
       { src: px("049986911/b07b7240dc8a2ec6baad90fd15bfbd61-xxlarge.JPG"), alt: "A guest in a white football jersey at The Kick Off.", width: 1600, height: 2400 },
       { src: px("049986911/a208e7833d83382ae9f95e23c5b9ef61-xxlarge.JPG"), alt: "A guest in sunglasses and a yellow top at The Kick Off.", width: 1600, height: 2400 },
+      { src: px("049986911/9436bdceb63877bd8045441521f4fdc6-xxlarge.JPG"), alt: "Two friends at golden hour at The Kick Off.", width: 1600, height: 2400 },
+      { src: px("049986911/94a4237491098eb8d963d6c46a30e757-xxlarge.JPG"), alt: "Friends in football shirts at The Kick Off.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -141,6 +153,8 @@ export const pastStops: PastStop[] = [
       { src: px("445721411/bab47add8345ec1ad5295fc65485771c-xxlarge.jpg"), alt: "A guest in a gold party crown in a crowd lit pink at Another Brit Party.", width: 1600, height: 2400 },
       { src: px("445721411/c8d46d4c89a5cb59bae969ffa07f0d66-xxlarge.jpg"), alt: "The DJ in a gold crown at Another Brit Party.", width: 1600, height: 2413 },
       { src: px("445721411/81e75738754c6f489ec3b297b39290b7-xxlarge.jpg"), alt: "A guest in a crown and a red England shirt at Another Brit Party.", width: 1600, height: 2400 },
+      { src: px("445721411/e7c03a3825589434b808f55d53018d4f-xxlarge.jpg"), alt: "A Union Jack flag over the crowd at Another Brit Party.", width: 1600, height: 1061 },
+      { src: px("445721411/91bfe055616af0be4182222cdf9a4ba9-xxlarge.jpg"), alt: "A guest in sunglasses throwing a sign at Another Brit Party.", width: 1600, height: 2413 },
     ],
   },
 ];
