@@ -93,11 +93,11 @@ export const pastStops: PastStop[] = [
     note: "Recorded DJ sets, live in the room. The first mix drops soon.",
     gallery: "https://offthel.pixieset.com/otlsessions/",
     photos: [
-      { src: px("305125321/c7ae30b9789a8dc83bbede2a50bd0a24-xxlarge.JPG"), alt: "A DJ mixing by candlelight at OTL Sessions vol. 1.", width: 1600, height: 2400 },
+      { src: px("305125321/77e167eded61eb36f2d56433801a1618-xxlarge.JPG"), alt: "A DJ with a chain and curls on the decks at OTL Sessions vol. 1.", width: 1600, height: 2353 },
+      { src: px("305125321/0f736a4b6a3fdc621896fa37de633fc3-xxlarge.JPG"), alt: "A DJ in a black cap and graphic tee mixing at OTL Sessions vol. 1.", width: 1600, height: 2322 },
+      { src: "/media/sessions-portrait.webp", alt: "A guest with tattooed hands sitting on a stool at OTL Sessions vol. 1, a giant CD clock behind him.", width: 1200, height: 1800 },
       { src: px("305125321/3ecfefe1e4a4e34e5ba14194f6fb1454-xxlarge.JPG"), alt: "The DJ in a white hoodie on the decks at OTL Sessions vol. 1.", width: 1600, height: 2366 },
-      { src: px("305125321/edd3465a6097d974e58cefadb1288af7-xxlarge.JPG"), alt: "The room around the decks at OTL Sessions vol. 1.", width: 1600, height: 1046 },
-      { src: px("305125321/3058906e861858b203ebfeec17d2b84f-cover.JPG"), alt: "The DJ at work in a sunlit room at OTL Sessions vol. 1.", width: 1600, height: 2400 },
-      { src: px("305125321/8cdaf57088fa510f8a6012373e62c03e-xxlarge.JPG"), alt: "On the decks at OTL Sessions vol. 1.", width: 1600, height: 2400 },
+      { src: px("305125321/2ecb6e0c1b59b00aaabd27bc8dacb02e-xxlarge.JPG"), alt: "Two friends laughing at OTL Sessions vol. 1.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -125,8 +125,8 @@ export const pastStops: PastStop[] = [
       { src: px("789986911/b282ce502ce13e5e52ab2cf6878fe264-xxlarge.JPG"), alt: "The DJ and friends dancing behind the decks in red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
       { src: px("789986911/c9ec9d1afa21578d5e8d01fc4fde725d-xxlarge.JPG"), alt: "Two friends in white at Jean and Tav's Birthday.", width: 1600, height: 2400 },
       { src: px("789986911/9436d3454e38e07484c8097e8a42eee3-xxlarge.JPG"), alt: "The floor under red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
-      { src: px("789986911/bb8a77ae995974c9263037a83127cb0a-xxlarge.JPG"), alt: "The DJ with both hands up behind the decks at Jean and Tav's Birthday.", width: 1600, height: 2400 },
-      { src: px("789986911/f29e08b10481eaab7a99c5474e36ea01-xxlarge.JPG"), alt: "A guest in a green top under red light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
+      { src: px("789986911/8639b7045ce6d9901f658f72e1be6615-xxlarge.JPG"), alt: "The crowd under hanging greenery at Jean and Tav's Birthday.", width: 1600, height: 2400 },
+      { src: px("789986911/fe17fe28238eb74a6653c80c32f59b62-xxlarge.JPEG"), alt: "Friends posing in pink light at Jean and Tav's Birthday.", width: 1600, height: 2400 },
     ],
   },
   {
@@ -150,9 +150,9 @@ export const pastStops: PastStop[] = [
     date: "2026-05-02",
     gallery: "https://offthel.pixieset.com/anotherbritparty/",
     photos: [
-      { src: px("445721411/bab47add8345ec1ad5295fc65485771c-xxlarge.jpg"), alt: "A guest in a gold party crown in a crowd lit pink at Another Brit Party.", width: 1600, height: 2400 },
+      { src: px("445721411/bab47add8345ec1ad5295fc65485771c-xxlarge.JPG"), alt: "A guest in a gold party crown in a crowd lit pink at Another Brit Party.", width: 1600, height: 2400 },
       { src: px("445721411/c8d46d4c89a5cb59bae969ffa07f0d66-xxlarge.jpg"), alt: "The DJ in a gold crown at Another Brit Party.", width: 1600, height: 2413 },
-      { src: px("445721411/81e75738754c6f489ec3b297b39290b7-xxlarge.jpg"), alt: "A guest in a crown and a red England shirt at Another Brit Party.", width: 1600, height: 2400 },
+      { src: px("445721411/81e75738754c6f489ec3b297b39290b7-xxlarge.JPG"), alt: "A guest in a crown and a red England shirt at Another Brit Party.", width: 1600, height: 2400 },
       { src: px("445721411/e7c03a3825589434b808f55d53018d4f-xxlarge.jpg"), alt: "A Union Jack flag over the crowd at Another Brit Party.", width: 1600, height: 1061 },
       { src: px("445721411/91bfe055616af0be4182222cdf9a4ba9-xxlarge.jpg"), alt: "A guest in sunglasses throwing a sign at Another Brit Party.", width: 1600, height: 2413 },
     ],
