@@ -148,7 +148,7 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; 
 .lm-label { font: 700 12px/1.25 var(--font-sign); letter-spacing: 0.06em; text-transform: uppercase; color: #a0a4ad; }
 .lm-label[data-state="now"] { color: #fff; }
 .lm-when { display: block; margin-top: 4px; font: 400 12px/1 var(--font-mono); color: var(--color-muted); letter-spacing: 0.06em; }
-@media (max-width: 560px) {
+@media (max-width: 760px) {
   .lm { grid-auto-flow: row; grid-auto-rows: auto; gap: 26px; }
   .lm::before { top: 10px; bottom: 10px; left: 9px; right: auto; width: 3px; height: auto; }
   .lm-stop { flex-direction: row; text-align: left; gap: 16px; }
@@ -317,3 +317,34 @@ html[data-entered="true"] .sitebar { transform: none; }
 @media (prefers-reduced-motion: reduce) { .sitebar { transition: none; } }
 
 .lm { margin-top: 12px; }
+
+/* ---------- Past stops: an arrivals board ---------- */
+.arrivals { align-self: stretch; display: grid; gap: clamp(16px, 2.4vw, 28px); }
+@media (min-width: 900px) { .arrivals { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; } }
+.arrivals-list { display: flex; flex-direction: column; background: #0a0a0a; border: 1px solid #2a2a2a; }
+.arrivals-row {
+  all: unset; box-sizing: border-box; cursor: pointer;
+  display: grid; grid-template-columns: 16px 1fr auto; align-items: center; gap: 14px;
+  min-height: 60px; padding: 12px 16px; border-bottom: 1px solid var(--color-hair);
+  transition: background-color 160ms;
+}
+.arrivals-row:last-child { border-bottom: 0; }
+.arrivals-row:hover { background: #101216; }
+.arrivals-row:focus-visible { outline: 2px solid var(--color-led); outline-offset: -2px; }
+.arrivals-row[aria-selected="true"] { background: #131519; }
+.arrivals-dot { width: 14px; height: 14px; border-radius: 50%; border: 3px solid var(--color-rail); background: #000; }
+.arrivals-row[aria-selected="true"] .arrivals-dot { background: var(--color-led); border-color: var(--color-led); box-shadow: 0 0 10px 1px rgba(255, 176, 0, 0.55); }
+.arrivals-name { font: 700 clamp(16px, 0.9rem + 0.5vw, 20px)/1.15 var(--font-sign); text-transform: uppercase; color: #c9ccd3; }
+.arrivals-row[aria-selected="true"] .arrivals-name { color: #fff; }
+.arrivals-date { font: 400 14px/1 var(--font-mono); letter-spacing: 0.06em; color: var(--color-led); text-shadow: 0 0 8px rgba(255, 176, 0, 0.4); white-space: nowrap; }
+
+.arrivals-panel { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.arrivals-photos { display: grid; grid-template-columns: 2fr 1fr; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 8px; aspect-ratio: 4 / 3.6; animation: platform-in 520ms var(--ease-out-expo); }
+.ph { display: block; position: relative; overflow: hidden; background: #111; border: 1px solid var(--color-hair); }
+.ph-lead { grid-row: 1 / span 3; }
+.ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out-expo); }
+@media (hover: hover) { .ph:hover img { transform: scale(1.04); } }
+.arrivals-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; }
+@keyframes platform-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .arrivals-photos { animation: none; } .ph img { transition: none; } }
+@media (max-width: 480px) { .arrivals-photos { aspect-ratio: 4 / 4.4; } .arrivals-foot .cta { flex: 1 1 100%; } }

@@ -114,7 +114,8 @@ export default function LogoPortal({ label, field, front, children, scrollLength
     const paint = (progress: number) => {
       const p = isStatic() ? 0 : progress;
       const t = clamp(p / 0.78);
-      const eased = t < 0.5 ? 4 * t ** 3 : 1 - (-2 * t + 2) ** 3 / 2;
+      // Sine in-out: a soft start and a soft landing, no sudden rush in the middle.
+      const eased = 0.5 - 0.5 * Math.cos(Math.PI * t);
       const scale = Math.exp(Math.log(startScale) + Math.log(endScale / startScale) * eased);
       const blend = endScale === startScale ? 0 : (1 / scale - 1 / startScale) / (1 / endScale - 1 / startScale);
       const cx = center.x + ((target?.x ?? center.x) - center.x) * blend;
@@ -127,19 +128,31 @@ export default function LogoPortal({ label, field, front, children, scrollLength
       overlay.style.opacity = String(1 - smooth(0.01, 0.12, p));
       fieldEl.style.clipPath = t >= 1 ? "none" : `url(#${clipId})`;
       section.style.setProperty("--lp-front", String(1 - smooth(0.005, 0.1, p)));
-      section.style.setProperty("--lp-reveal", String(isStatic() ? 1 : smooth(0.8, 0.92, p)));
+      section.style.setProperty("--lp-reveal", String(isStatic() ? 1 : smooth(0.72, 0.94, p)));
       section.style.setProperty("--lp-hit", p < 0.06 ? "auto" : "none");
       section.dataset.lpEntered = String(p >= 0.92);
       if (p !== last) { last = p; progressRef.current?.(p); }
     };
 
-    const frame = () => {
+    // The camera eases toward the scroll position instead of snapping to it,
+    // so wheel steps and flicks glide. Frame-rate independent.
+    let current = position();
+    let lastTime = 0;
+    const frame = (time: number) => {
       raf = 0;
       if (disposed) return;
-      paint(position());
+      const target = position();
+      const dt = lastTime ? Math.min(64, time - lastTime) : 16;
+      lastTime = time;
+      const k = 1 - Math.exp(-dt / 90);
+      current += (target - current) * k;
+      if (Math.abs(target - current) < 0.0004) current = target;
+      paint(current);
+      if (current !== target) raf = requestAnimationFrame(frame);
+      else lastTime = 0;
     };
     const schedule = () => { if (!raf && active) raf = requestAnimationFrame(frame); };
-    const resize = () => { layout(); paint(position()); };
+    const resize = () => { layout(); current = position(); paint(current); };
     const io = new IntersectionObserver(([e]) => {
       active = e.isIntersecting;
       if (active) schedule();
@@ -147,7 +160,8 @@ export default function LogoPortal({ label, field, front, children, scrollLength
     const ro = new ResizeObserver(resize);
 
     layout();
-    paint(position());
+    current = position();
+    paint(current);
     io.observe(section);
     ro.observe(pin);
     window.addEventListener("scroll", schedule, { passive: true });

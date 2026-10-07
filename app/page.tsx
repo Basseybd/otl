@@ -4,13 +4,19 @@ import LineMap from "@/components/line-map";
 import Mark from "@/components/mark";
 import AutoVideo from "@/components/auto-video";
 import RsvpLink from "@/components/rsvp-link";
-import { feed, line, lineTitle, nextStop, recap, sessions, site } from "@/lib/content";
+import { feed, line, lineTitle, list, nextStop, pastStops, pastTitle, site } from "@/lib/content";
+import PastStops from "@/components/past-stops";
 
 const eta = (() => {
   const d = new Date(nextStop.start);
   const day = d.toLocaleDateString("en-US", { weekday: "short", month: "numeric", day: "numeric", timeZone: "America/New_York" }).replace(",", "");
   const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).replace(":00", "").replace(" ", "");
   return `${day} | ${time}`.toUpperCase();
+})();
+
+const firstStop = (() => {
+  const [y, m, d] = pastStops[pastStops.length - 1].date.split("-");
+  return `${Number(m)}/${Number(d)}/${y.slice(2)}`;
 })();
 
 const mapsHref = `https://maps.apple.com/?q=${encodeURIComponent(`${nextStop.venue}, ${nextStop.address}`)}`;
@@ -89,41 +95,13 @@ export default function Page() {
           </div>
         </section>
 
-        <section className="wrap block" aria-labelledby="recap-title">
+        <section className="wrap block" aria-labelledby="past-title">
           <div className="sign">
             <span className="bullet" aria-hidden="true">L</span>
-            <h2 id="recap-title" className="sign-name">{recap.name} recap</h2>
-            <p className="sign-eta">{recap.status}<small>{recap.where}</small></p>
+            <h2 id="past-title" className="sign-name">{pastTitle}</h2>
+            <p className="sign-eta">{pastStops.length} stops<small>Since {firstStop}</small></p>
           </div>
-          <p className="lede recap-line">{recap.line}</p>
-          <ul className="prints" role="list">
-            {recap.photos.map((p) => (
-              <li key={p.src}>
-                <a href={recap.href} target="_blank" rel="noopener" aria-label={`${p.alt} Opens the full gallery.`}>
-                  <img src={p.src} alt={p.alt} width={p.width} height={p.height} loading="lazy" decoding="async" />
-                </a>
-              </li>
-            ))}
-          </ul>
-          <a className="cta" href={recap.href} target="_blank" rel="noopener">
-            <CameraIcon />
-            See all the photos
-          </a>
-        </section>
-
-        <section className="wrap block" aria-labelledby="sessions-title">
-          <div className="sign">
-            <span className="bullet" aria-hidden="true">L</span>
-            <h2 id="sessions-title" className="sign-name">{sessions.name}</h2>
-            <p className="sign-eta">{sessions.status}<small>{sessions.statusNote}</small></p>
-          </div>
-          <div className="sessions">
-            <p className="lede">{sessions.line}</p>
-            <a className="cta cta-ghost" href={site.instagram.href} target="_blank" rel="noopener">
-              <InstagramIcon />
-              Follow {site.instagram.handle}
-            </a>
-          </div>
+          <PastStops stops={pastStops} cta="See all the photos" />
         </section>
 
         <section className="wrap block" aria-labelledby="line-title">
@@ -133,6 +111,20 @@ export default function Page() {
           </div>
           <LineMap stops={line} start={nextStop.start} end={nextStop.end} />
         </section>
+
+        <section className="wrap block list-block" aria-labelledby="list-title">
+          <div className="sign">
+            <span className="bullet" aria-hidden="true">L</span>
+            <h2 id="list-title" className="sign-name">{list.title}</h2>
+          </div>
+          <div className="sessions">
+            <p className="lede">{list.line}</p>
+            <a className="cta" href={list.href} target="_blank" rel="noopener">
+              <WaveIcon />
+              {list.cta}
+            </a>
+          </div>
+        </section>
       </main>
 
       <footer className="wrap footer">
@@ -141,6 +133,7 @@ export default function Page() {
         <div className="social">
           <a href={site.instagram.href} target="_blank" rel="noopener" aria-label={`Instagram ${site.instagram.handle}`}><InstagramIcon /></a>
           <a href={site.tiktok.href} target="_blank" rel="noopener" aria-label={`TikTok ${site.tiktok.handle}`}><TikTokIcon /></a>
+          <a href={site.linktree.href} target="_blank" rel="noopener" aria-label="All OTL links on Linktree"><LinkIcon /></a>
         </div>
         <p className="fine">{site.fine}</p>
       </footer>
@@ -176,6 +169,14 @@ function TikTokIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M16.6 3h-2.7v12.4a2.6 2.6 0 1 1-2.1-2.55V10.0a5.5 5.5 0 1 0 4.8 5.45V9.3a6.3 6.3 0 0 0 3.7 1.18V7.7c-1.9 0-3.5-1.6-3.7-4.7z" />
+    </svg>
+  );
+}
+function LinkIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1" />
+      <path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1" />
     </svg>
   );
 }

@@ -20,8 +20,20 @@ const csp = [
   "upgrade-insecure-requests",
 ].join("; ");
 
+// OTL's own Pixieset galleries, one folder per party. Exact host and folders, never a wildcard host.
+const galleries = ["305125321", "769986911", "789986911", "049986911", "445721411"];
+
 const config: NextConfig = {
   poweredByHeader: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2678400,
+    remotePatterns: galleries.map((folder) => ({
+      protocol: "https" as const,
+      hostname: "images.pixieset.com",
+      pathname: `/${folder}/**`,
+    })),
+  },
   productionBrowserSourceMaps: false,
   async headers() {
     return [
