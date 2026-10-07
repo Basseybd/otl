@@ -15,7 +15,6 @@ export default function PastStops({ stops, cta }: { stops: PastStop[]; cta: stri
   const [active, setActive] = useState(0);
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const stop = stops[active];
-  const lead = stop.photos[0];
 
   const onKey = (e: KeyboardEvent<HTMLButtonElement>, i: number) => {
     const keys: Record<string, number> = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 };
@@ -53,9 +52,20 @@ export default function PastStops({ stops, cta }: { stops: PastStop[]; cta: stri
       </div>
 
       <div className="arrivals-panel" id={`${uid}-panel`} role="tabpanel" aria-labelledby={`${uid}-tab-${active}`}>
-        <a className="arrivals-photo" key={stop.slug} href={stop.gallery} target="_blank" rel="noopener" aria-label={`${lead.alt} Opens the full gallery.`}>
-          <Image src={lead.src} alt={lead.alt} width={lead.width} height={lead.height} sizes="(min-width: 900px) 640px, 100vw" />
-        </a>
+        <div className="arrivals-photos" key={stop.slug}>
+          {stop.photos.slice(0, 3).map((p, i) => (
+            <a
+              key={p.src}
+              className={i === 0 ? "arrivals-photo is-lead" : "arrivals-photo"}
+              href={stop.gallery}
+              target="_blank"
+              rel="noopener"
+              aria-label={`${p.alt} Opens the full gallery.`}
+            >
+              <Image src={p.src} alt={p.alt} width={p.width} height={p.height} sizes={i === 0 ? "(min-width: 900px) 440px, 64vw" : "(min-width: 900px) 220px, 34vw"} />
+            </a>
+          ))}
+        </div>
         <div className="arrivals-foot">
           {stop.note && <p className="lede">{stop.note}</p>}
           <a className="cta" href={stop.gallery} target="_blank" rel="noopener">
