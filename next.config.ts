@@ -13,6 +13,8 @@ const csp = [
   "media-src 'self'",
   "font-src 'self'",
   `connect-src 'self'${dev ? " ws:" : ""}`,
+  // Instagram's player loads only after a visitor taps play on the reel.
+  "frame-src https://www.instagram.com",
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",

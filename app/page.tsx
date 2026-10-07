@@ -2,7 +2,7 @@ import Hero, { WaveIcon } from "@/components/hero";
 import Countdown from "@/components/countdown";
 import LineMap from "@/components/line-map";
 import Mark from "@/components/mark";
-import AutoVideo from "@/components/auto-video";
+import ReelEmbed from "@/components/reel-embed";
 import RsvpLink from "@/components/rsvp-link";
 import { feed, line, lineTitle, list, nextStop, pastStops, pastTitle, site } from "@/lib/content";
 import PastStops from "@/components/past-stops";
@@ -83,13 +83,13 @@ export default function Page() {
           </div>
           <div className="feed-body">
             <figure className="screen">
-              <AutoVideo sources={feed.sources} poster={feed.poster} label={feed.alt} />
+              <ReelEmbed embed={feed.embed} sources={feed.sources} poster={feed.poster} label={feed.alt} />
             </figure>
             <div className="feed-copy">
               <p className="lede">{feed.line}</p>
-              <a className="cta cta-ghost" href={feed.href} target="_blank" rel="noopener">
+              <a className="cta" href={site.instagram.href} target="_blank" rel="noopener">
                 <InstagramIcon />
-                Watch on Instagram
+                Follow {site.instagram.handle}
               </a>
             </div>
           </div>
