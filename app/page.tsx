@@ -82,9 +82,7 @@ export default function Page() {
             <h2 id="feed-title" className="sign-name">{feed.title}</h2>
           </div>
           <div className="feed-body">
-            <figure className="screen">
-              <ReelEmbed embed={feed.embed} sources={feed.sources} poster={feed.poster} label={feed.alt} />
-            </figure>
+            <ReelEmbed href={feed.href} handle={site.instagram.handle} sources={feed.sources} poster={feed.poster} label={feed.alt} />
             <div className="feed-copy">
               <p className="lede">{feed.line}</p>
               <a className="cta" href={site.instagram.href} target="_blank" rel="noopener">

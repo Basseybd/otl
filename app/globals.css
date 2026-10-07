@@ -264,7 +264,7 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; 
 .block > .sign { align-self: stretch; }
 
 .feed-body { display: grid; gap: clamp(20px, 3vw, 40px); align-items: start; align-self: stretch; }
-@media (min-width: 900px) { .feed-body { grid-template-columns: minmax(0, 560px) minmax(0, 1fr); } }
+@media (min-width: 900px) { .feed-body { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); align-items: center; } }
 .screen { margin: 0; padding: 10px; background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 4px; }
 .screen video { display: block; width: 100%; height: auto; aspect-ratio: 5 / 4; object-fit: cover; background: #111; }
 .feed-copy { display: flex; flex-direction: column; gap: 22px; align-items: flex-start; padding-top: 6px; }
@@ -365,18 +365,37 @@ html[data-entered="true"] .sitebar { transform: none; }
 @media (prefers-reduced-motion: reduce) { .arrivals-photos { animation: none; } .arrivals-photo img { transition: none; } }
 @media (max-width: 480px) { .arrivals-photos { aspect-ratio: 4 / 4.4; } .arrivals-foot .cta { flex: 1 1 100%; } }
 
-/* ---------- Reel: our loop until tap, then Instagram's player ---------- */
-.reel-teaser { position: relative; }
-.reel-play {
-  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
-  display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px 0 8px;
-  background: rgba(0, 0, 0, 0.78); color: #fff; border: 1px solid #3c3d43; border-radius: 999px; cursor: pointer;
-  font: 700 12px/1 var(--font-sign); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
-  transition: background-color 160ms, border-color 160ms;
+/* ---------- Reel: an Instagram-style card in OTL material ---------- */
+.ig-card {
+  display: flex; flex-direction: column; width: 100%; max-width: 420px;
+  background: #0a0a0a; border: 1px solid #2a2a2a; border-radius: 6px; overflow: hidden;
+  color: var(--color-ink); text-decoration: none;
+  transition: border-color 200ms, transform 300ms var(--ease-out-expo);
 }
-.reel-play:hover { background: #000; border-color: #6e7280; }
-.reel-play-dot { width: 30px; height: 30px; border-radius: 50%; background: var(--color-cta); color: var(--color-cta-ink); display: inline-flex; align-items: center; justify-content: center; }
-.reel-play-dot svg { width: 14px; height: 14px; margin-left: 2px; }
-.reel-frame { display: flex; justify-content: center; background: #0a0a0a; }
-.reel-frame iframe { display: block; width: min(100%, 400px); height: 640px; border: 0; background: #fff; border-radius: 4px; }
-@media (max-width: 480px) { .reel-frame iframe { height: 600px; } }
+.ig-card:hover { border-color: #4a4f59; }
+.ig-card:active { transform: scale(0.995); }
+.ig-card:focus-visible { outline: 2px solid var(--color-led); outline-offset: 4px; }
+.ig-head { display: flex; align-items: center; gap: 12px; padding: 12px 14px; }
+.ig-avatar { width: 36px; height: 36px; border-radius: 50%; background: #000; border: 1px solid #3c3d43; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.ig-avatar svg { width: 24px; height: auto; }
+.ig-who { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.ig-name { font: 700 14px/1 var(--font-sign); }
+.ig-handle { font: 400 12px/1 var(--font-mono); color: var(--color-muted); letter-spacing: 0.04em; }
+.ig-glyph { width: 22px; height: 22px; color: var(--color-body); flex: none; }
+.ig-media { position: relative; display: block; aspect-ratio: 1 / 1; background: #111; overflow: hidden; }
+.ig-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 12% 50%; }
+.ig-play {
+  position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, 0.45); border: 2px solid rgba(255, 255, 255, 0.92); color: #fff;
+  transition: transform 300ms var(--ease-out-expo), background-color 200ms;
+}
+.ig-play svg { width: 26px; height: 26px; margin-left: 3px; }
+.ig-card:hover .ig-play { transform: scale(1.06); background: rgba(0, 0, 0, 0.6); }
+.ig-foot {
+  display: flex; align-items: center; justify-content: space-between; padding: 13px 14px;
+  border-top: 1px solid var(--color-hair);
+  font: 700 12px/1 var(--font-sign); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.ig-foot svg { width: 16px; height: 16px; color: var(--color-led); }
+@media (prefers-reduced-motion: reduce) { .ig-card, .ig-play { transition: none; } }

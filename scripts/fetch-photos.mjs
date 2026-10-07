@@ -30,11 +30,18 @@ for (const p of paths) {
   let done = false;
   for (let attempt = 1; attempt <= 3 && !done; attempt++) {
     try {
-      const res = await fetch(`https://images.pixieset.com/${p}`, {
+      // Pixieset file extensions vary in case (.JPG, .jpg, .JPEG). Try the listed one, then the others.
+      const base = p.replace(/\.(jpe?g)$/i, "");
+      const tries = [p, ...[".JPG", ".jpg", ".JPEG", ".jpeg"].map((e) => base + e).filter((x) => x !== p)];
+      let res;
+      for (const candidate of tries) {
+        res = await fetch(`https://images.pixieset.com/${candidate}`, {
         signal: AbortSignal.timeout(20000),
         // Ask the way a browser on the gallery page would, in case Pixieset checks.
-        headers: { "User-Agent": "Mozilla/5.0 (compatible; OTL site build)", Referer: "https://offthel.pixieset.com/", Accept: "image/*" },
-      });
+          headers: { "User-Agent": "Mozilla/5.0 (compatible; OTL site build)", Referer: "https://offthel.pixieset.com/", Accept: "image/*" },
+        });
+        if (res.ok) break;
+      }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const buf = Buffer.from(await res.arrayBuffer());
       await sharp(buf).rotate().resize({ width: 1200, withoutEnlargement: true }).webp({ quality: 82 }).toFile(file);
