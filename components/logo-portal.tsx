@@ -27,6 +27,8 @@ type Props = {
 
 const VB_W = 251.17;
 const VB_H = 161;
+/** Peak camera bank in degrees, from Glyph Portal. Negative tilts counterclockwise. */
+const ROLL = -4;
 const clamp = (n: number, a = 0, b = 1) => Math.min(b, Math.max(a, n));
 const smooth = (a: number, b: number, n: number) => {
   const t = clamp((n - a) / (b - a));
@@ -121,8 +123,10 @@ export default function LogoPortal({ label, field, front, children, scrollLength
       const cx = center.x + ((target?.x ?? center.x) - center.x) * blend;
       const cy = center.y + ((target?.y ?? center.y) - center.y) * blend;
       const ty = H * anchorY + H * 0.04 * eased;
+      // The camera banks into the dive and levels out before it lands, so the board arrives straight.
+      const roll = ROLL * smooth(0.06, 0.5, t) * (1 - smooth(0.62, 0.92, t));
       const m = MARK_SKEW;
-      const base = `translate(${W / 2} ${ty}) scale(${scale}) translate(${-cx} ${-cy})`;
+      const base = `translate(${W / 2} ${ty}) scale(${scale}) rotate(${roll}) translate(${-cx} ${-cy})`;
       clipPath.setAttribute("transform", `${base} matrix(${m.a} ${m.b} ${m.c} ${m.d} ${m.e} ${m.f})`);
       overlay.setAttribute("transform", base);
       overlay.style.opacity = String(1 - smooth(0.01, 0.12, p));
