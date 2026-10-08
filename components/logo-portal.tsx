@@ -27,8 +27,8 @@ type Props = {
 
 const VB_W = 251.17;
 const VB_H = 161;
-/** Peak camera bank in degrees, from Glyph Portal. Negative tilts counterclockwise. */
-const ROLL = -4;
+/** Peak camera bank in degrees. Glyph Portal uses -4; OTL banks harder. Negative tilts counterclockwise. */
+const ROLL = -7;
 const clamp = (n: number, a = 0, b = 1) => Math.min(b, Math.max(a, n));
 const smooth = (a: number, b: number, n: number) => {
   const t = clamp((n - a) / (b - a));
