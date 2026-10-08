@@ -117,7 +117,7 @@ Tokens live in `app/globals.css` (`@theme`) and `DESIGN.md`:
 - **GitHub (the real home):** https://github.com/Basseybd/otl, branch `main`, HEAD `65bb10f00fb6badf6dac86dbc616ba840d7ecc1c` ("Merge pull request #8 from Basseybd/site-reel-card", Oct 7, 2026 17:47:45 -0400). Everything is committed and pushed.
 - **Target local path on Windows:** `C:\Users\basse\Desktop\Repos\otl` (does not exist yet unless Bassey already cloned it; **UNKNOWN**).
 - The Cowork build happened in a cloud sandbox at `/home/claude/otl`. That sandbox is gone; nothing from it is needed except what's in the repo.
-- **This file:** written to the repo root (`HANDOFF.md`) in a fresh clone in this chat's workspace. It is **not committed** to GitHub. Copy it to `C:\Users\basse\Desktop\Repos\otl\HANDOFF.md`.
+- **This file:** `HANDOFF.md` at the repo root, committed on branch `handoff-doc` (not merged to `main`). After cloning, run `git checkout handoff-doc` to see it, or merge that branch into `main` once Bassey is OK with the doc living in the repo.
 
 ### 3b. Every tracked file in the repo (all final, on `main`)
 | Path | What it is |
@@ -398,7 +398,7 @@ Full sortable list: https://claude.ai/artifact/ELdsqAYx41TLPSLJVdyzzv
 1. [ ] Read this whole file. Load the `bassey-web-design` skill if available (and `bassey-site-audit` before any review). Follow the no em dash rule in everything.
 2. [ ] Check tools: `node -v` (must be v24.x; install Node 24 LTS if not), `git --version`, `gh auth status` (log in with `gh auth login` if needed).
 3. [ ] Clone: `git clone https://github.com/Basseybd/otl.git C:\Users\basse\Desktop\Repos\otl` then `cd C:\Users\basse\Desktop\Repos\otl`. If the folder already exists, `git fetch && git status` and make sure `main` is at or after `65bb10f`.
-4. [ ] Copy this `HANDOFF.md` into the repo root. Ask Bassey whether to commit it (default: commit on a small docs branch, or add to `.gitignore` if he'd rather keep it local).
+4. [ ] `git fetch origin handoff-doc` and read `HANDOFF.md` from that branch. Ask Bassey whether to merge it into `main` (a docs-only merge triggers a harmless production redeploy).
 5. [ ] `npm ci`
 6. [ ] `npm run lint` (should pass).
 7. [ ] `npm run dev`, open http://localhost:3000, check the dive, board, reel card, Past stops (tap each party), line map, footer at desktop and a 390px mobile viewport.
