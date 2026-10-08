@@ -5,8 +5,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
+import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+// fileURLToPath, not URL.pathname: on Windows the pathname is /C:/..., which resolves to C:\C:\...
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const content = await fs.readFile(path.join(root, "lib/content.ts"), "utf8");
 const paths = [...new Set([...content.matchAll(/px\("([^"]+)"\)/g)].map((m) => m[1]))];
 const outDir = path.join(root, "public/media/stops");

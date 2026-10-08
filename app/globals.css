@@ -159,7 +159,7 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; 
 .lp > [data-lp-viewport] { position: absolute; top: 0; left: 0; width: 0; height: 100vh; height: 100svh; visibility: hidden; pointer-events: none; }
 [data-lp-pin] { position: relative; height: var(--lp-height, 100svh); overflow: clip; }
 .lp[data-lp-motion="on"] [data-lp-pin] { position: sticky; top: 0; }
-[data-lp-field] { position: absolute; inset: 0; background: #eceef1; visibility: hidden; }
+[data-lp-field] { position: absolute; inset: 0; background: #0a0b0d; visibility: hidden; }
 .lp[data-lp-ready] [data-lp-field] { visibility: visible; }
 [data-lp-dim] { position: absolute; inset: 0; background: #000; opacity: calc(var(--lp-reveal, 0) * 0.9); pointer-events: none; }
 /* Once you've boarded, the halftone fades out at its foot instead of ending on a hard edge. */
@@ -183,11 +183,13 @@ a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 4px; 
 .lp[data-lp-motion="on"]:not([data-lp-entered="true"]) [data-lp-content] { pointer-events: none; }
 .lp[data-lp-motion="on"] [data-lp-content]:focus-within { opacity: 1; pointer-events: auto; }
 
-/* Halftone field */
-.halftone { position: absolute; inset: 0; background: #eceef1; overflow: hidden; }
-.halftone canvas, .halftone video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+/* Halftone field. Until the first frame draws, the window holds the halftone's ink color, so the
+   mark reads as its outline on black, then the footage fades in. Paper here flashed a white logo. */
+.halftone { position: absolute; inset: 0; background: #0a0b0d; overflow: hidden; }
+.halftone canvas, .halftone video { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: opacity 700ms var(--ease-out-expo); }
 .halftone video { object-fit: cover; opacity: 0; }
 .halftone canvas { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .halftone canvas, .halftone video { transition: none; } }
 .halftone[data-mode="gl"] canvas { opacity: 1; }
 .halftone[data-mode="video"] video, .halftone[data-mode="poster"] video { opacity: 1; filter: grayscale(1) contrast(1.25) brightness(1.15); }
 

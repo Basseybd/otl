@@ -15,5 +15,9 @@ AGENTS.md
 HANDOFF.md
 DESIGN.md
 
+# Playwright output
+playwright-report/
+test-results/
+
 # Photos copied from Pixieset at build time
 public/media/stops/

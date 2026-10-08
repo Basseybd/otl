@@ -1,0 +1,105 @@
+# Runs the Playwright smoke tests on every pull request into main, then merges the PR once the
+# tests and the Vercel preview pass on the same commit. To hold a PR back, open it as a draft or
+# add the "hold" label. PRs that change the tests or this workflow always wait for a human merge.
+name: e2e
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review, unlabeled]
+
+concurrency:
+  group: e2e-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report
+          retention-days: 7
+
+  automerge:
+    needs: playwright
+    # Only the owner's own PRs from branches in this repo: never forks, Dependabot or other bots.
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.login == github.repository_owner &&
+      !github.event.pull_request.draft
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      PR: ${{ github.event.pull_request.number }}
+      SHA: ${{ github.event.pull_request.head.sha }}
+      # The PR merged onto main as it was when the tests ran. Its first parent is that main.
+      TESTED_MERGE: ${{ github.sha }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Wait for the Vercel preview
+        run: |
+          set -euo pipefail
+          for i in $(seq 1 60); do
+            state=$(gh api "repos/$REPO/commits/$SHA/status" --jq '[.statuses[] | select(.context == "Vercel") | .state][0] // "pending"')
+            echo "Vercel: $state"
+            case "$state" in
+              success) exit 0 ;;
+              failure|error) exit 1 ;;
+            esac
+            sleep 15
+          done
+          echo "Vercel never reported for $SHA"
+          exit 1
+      - name: Merge
+        run: |
+          set -euo pipefail
+          # Check again now: the PR may have gone back to draft or been held while tests ran.
+          # Any API error stops the job before it can merge.
+          ok=$(gh pr view "$PR" --repo "$REPO" --json isDraft,labels \
+            --jq '(.isDraft | not) and ([.labels[].name | ascii_downcase] | index("hold") | not)')
+          if [ "$ok" != true ]; then
+            echo "Draft or labeled hold, not merging"; exit 0
+          fi
+
+          # Changes to the tests or this workflow need a human to look before they merge.
+          files=$(gh pr diff "$PR" --repo "$REPO" --name-only)
+          if grep -qE '^(\.github/|e2e/|playwright\.config\.ts$)' <<< "$files"; then
+            echo "Changes the tests or CI, leaving the merge to a human"; exit 0
+          fi
+
+          # If main moved after the tests ran (another PR merged), this PR was never tested
+          # on top of it. Ask for a retest instead of merging blind.
+          tested_base=$(gh api "repos/$REPO/commits/$TESTED_MERGE" --jq '.parents[0].sha')
+          main_now=$(gh api "repos/$REPO/commits/main" --jq '.sha')
+          if [ "$tested_base" != "$main_now" ]; then
+            gh pr comment "$PR" --repo "$REPO" --body "Not auto-merged: main changed after the tests ran. Click **Update branch** to retest on the new main; it merges itself if the tests pass."
+            exit 0
+          fi
+
+          gh pr merge "$PR" --repo "$REPO" --merge --delete-branch --match-head-commit "$SHA"
