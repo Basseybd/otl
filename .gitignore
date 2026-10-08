@@ -6,8 +6,14 @@ out
 .vercel
 *.tsbuildinfo
 next-env.d.ts
-.claude/lessons.md
 .DS_Store
+
+# Notes for Claude, kept local
+.claude/
+CLAUDE.md
+AGENTS.md
+HANDOFF.md
+DESIGN.md
 
 # Photos copied from Pixieset at build time
 public/media/stops/
