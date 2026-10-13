@@ -10,7 +10,8 @@ export const site = {
   where: "Brooklyn, NY",
   footerLine: "Come with us",
   fine: "Off The L · Brooklyn, NY",
-  shareAlt: "Off The L. Now boarding: Full Circle.",
+  shareAlt: "Off The L. A Brooklyn party, one stop off the L. Afrobeats, hip hop, dancehall and global sounds.",
+  sounds: ["Afrobeats", "Hip hop", "Dancehall", "Global sounds"],
   afterParty: "Catch the next stop",
   instagram: { handle: "@otl_nyc", href: "https://instagram.com/otl_nyc" },
   tiktok: { handle: "@otl_nyc", href: "https://www.tiktok.com/@otl_nyc" },
@@ -33,24 +34,20 @@ export type Stop = {
   poster: { src: string; srcSet: string; alt: string; width: number; height: number };
 };
 
-export const nextStop: Stop = {
-  name: "Full Circle",
-  start: "2026-10-11T18:00:00-04:00",
-  end: "2026-10-12T02:00:00-04:00",
-  venue: "The Red Pavilion",
-  address: "1241 Flushing Ave, Brooklyn",
-  sounds: ["J. Surena", "Killa*", "Taylor Nuri", "Cici Simone"],
-  genres: ["Afrobeats", "Hip hop", "Dancehall", "Global sounds"],
-  blurb: "One year of Off The L. Our anniversary party, and the reason we keep doing this.",
-  note: "Free, just RSVP.",
-  rsvp: "https://posh.vip/f/e2933?t=web",
-  poster: {
-    src: "/media/full-circle-880.webp",
-    srcSet: "/media/full-circle-560.webp 560w, /media/full-circle-880.webp 880w",
-    alt: "Full Circle poster. One year anniversary party, 6 PM 10/11, The Red Pavilion, 1241 Flushing Ave. Sounds by J. Surena, Killa*, Taylor Nuri and Cici Simone.",
-    width: 880,
-    height: 880,
-  },
+/**
+ * The next party, or null between parties. Null switches the board, ticker and every
+ * RSVP button to "Next stop, TBA" and points people to Instagram. To announce one,
+ * fill in a Stop (poster files go in public/media) and the countdown, board and line map follow.
+ */
+export const nextStop: Stop | null = null;
+
+/** What the board says between parties. */
+export const between = {
+  title: "Next stop",
+  eta: "TBA",
+  etaNote: "Announcing soon",
+  line: "The next party drops on Instagram and the list first.",
+  ticker: ["Next stop: TBA", "Brooklyn, NY", "Follow @otl_nyc for the drop"],
 };
 
 export const feed = {
@@ -168,18 +165,27 @@ export const list = {
   cta: "Join the list",
 };
 
-/** The line so far: every past stop, oldest first, then the next party and what comes after. */
+/** The line so far: every past stop, oldest first, then the next party (if announced) and what comes after. */
 export const lineTitle = "The line so far";
 const md = (iso: string) => {
   const [, m, d] = iso.split("-");
   return `${Number(m)}/${Number(d)}`;
 };
+/** Parties that happened but have no photos on the site yet. They show on the line only; move each into pastStops once its gallery picks are in. */
+export const photosComing = [{ short: "Full Circle", date: "2026-10-11" }];
+
+// Read through a cast so this file doesn't narrow nextStop to its current value.
+const upcoming = nextStop as Stop | null;
 export const line = [
-  ...[...pastStops].reverse().map((s) => ({ label: s.short, when: md(s.date) })),
-  {
-    label: nextStop.name,
-    when: new Date(nextStop.start).toLocaleDateString("en-US", { month: "numeric", day: "numeric", timeZone: "America/New_York" }),
-    isNext: true,
-  },
+  ...[...pastStops, ...photosComing]
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map((s) => ({ label: s.short, when: md(s.date) })),
+  ...(upcoming
+    ? [{
+        label: upcoming.name,
+        when: new Date(upcoming.start).toLocaleDateString("en-US", { month: "numeric", day: "numeric", timeZone: "America/New_York" }),
+        isNext: true,
+      }]
+    : []),
   { label: "Next stop", when: "Soon" },
 ];

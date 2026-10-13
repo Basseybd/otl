@@ -5,22 +5,28 @@ import { relativeLabel } from "./countdown";
 import LogoPortal from "./logo-portal";
 import RsvpLink from "./rsvp-link";
 import HalftoneField from "./halftone-field";
-import { feed, nextStop, site } from "@/lib/content";
+import { between, feed, nextStop, site, type Stop } from "@/lib/content";
+
+const SEP = "      |      ";
+
+function stopText(stop: Stop, status: string) {
+  const day = new Date(stop.start).toLocaleDateString("en-US", { weekday: "short", month: "numeric", day: "numeric", timeZone: "America/New_York" }).replace(",", "");
+  return `${status}: ${stop.name}  ·  ${day}  ·  ${stop.venue}${SEP}Sounds by ${stop.sounds.join(", ")}${SEP}${stop.genres.join("  ·  ")}${SEP}`;
+}
 
 function Ticker() {
   const [status, setStatus] = useState("Now boarding");
   useEffect(() => {
-    const tick = () => {
-      const label = relativeLabel(nextStop.start, nextStop.end);
-      setStatus(label === "Arrived" ? "Arrived" : "Now boarding");
-    };
+    if (!nextStop) return;
+    const { start, end } = nextStop;
+    const tick = () => setStatus(relativeLabel(start, end) === "Arrived" ? "Arrived" : "Now boarding");
     tick();
     const id = window.setInterval(tick, 60_000);
     return () => window.clearInterval(id);
   }, []);
-  const d = new Date(nextStop.start);
-  const day = d.toLocaleDateString("en-US", { weekday: "short", month: "numeric", day: "numeric", timeZone: "America/New_York" }).replace(",", "");
-  const text = `${status}: ${nextStop.name}  ·  ${day}  ·  ${nextStop.venue}      |      Sounds by ${nextStop.sounds.join(", ")}      |      ${nextStop.genres.join("  ·  ")}      |      `;
+  const text = nextStop
+    ? stopText(nextStop, status)
+    : `${between.ticker.join(SEP)}${SEP}${site.sounds.join("  ·  ")}${SEP}`;
   return (
     <div className="ticker" aria-hidden="true">
       <div className="ticker-track">
@@ -69,7 +75,7 @@ export default function Hero({ children }: { children: ReactNode }) {
           <div className="hero-actions">
             <RsvpLink className="cta" after={site.afterParty}>
               <WaveIcon />
-              RSVP to {nextStop.name}
+              RSVP to {nextStop?.name}
             </RsvpLink>
           </div>
           <a className="hero-hint" href="#board">

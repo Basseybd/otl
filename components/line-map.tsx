@@ -5,8 +5,10 @@ import { useEffect, useState, type CSSProperties } from "react";
 type Stop = { label: string; when: string; isNext?: boolean };
 type State = "done" | "now" | "next";
 
-function states(stops: Stop[], start: string, end: string, now: number): State[] {
+function states(stops: Stop[], start: string | undefined, end: string | undefined, now: number): State[] {
   const i = stops.findIndex((s) => s.isNext);
+  // Between parties: everything has happened, and the last stop ("Next stop") is lit.
+  if (i < 0 || !end) return stops.map((_, j) => (j === stops.length - 1 ? "now" : "done"));
   const passed = now >= new Date(end).getTime();
   return stops.map((_, j) => {
     if (j < i) return "done";
@@ -15,8 +17,8 @@ function states(stops: Stop[], start: string, end: string, now: number): State[]
   });
 }
 
-/** The newsletter's line map: done stops filled, the next party lit, the future dashed. */
-export default function LineMap({ stops, start, end }: { stops: Stop[]; start: string; end: string }) {
+/** The newsletter's line map: done stops filled, the next party lit, the future dashed. Without start/end, nothing is announced. */
+export default function LineMap({ stops, start, end }: { stops: Stop[]; start?: string; end?: string }) {
   const [now, setNow] = useState<number | null>(null);
   useEffect(() => {
     setNow(Date.now());
