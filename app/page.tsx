@@ -4,75 +4,23 @@ import LineMap from "@/components/line-map";
 import Mark from "@/components/mark";
 import ReelEmbed from "@/components/reel-embed";
 import RsvpLink from "@/components/rsvp-link";
-import { feed, line, lineTitle, list, nextStop, pastStops, pastTitle, site } from "@/lib/content";
+import { between, feed, line, lineTitle, list, nextStop, pastStops, pastTitle, site, type Stop } from "@/lib/content";
 import PastStops from "@/components/past-stops";
-
-const eta = (() => {
-  const d = new Date(nextStop.start);
-  const day = d.toLocaleDateString("en-US", { weekday: "short", month: "numeric", day: "numeric", timeZone: "America/New_York" }).replace(",", "");
-  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).replace(":00", "").replace(" ", "");
-  return `${day} | ${time}`.toUpperCase();
-})();
 
 const firstStop = (() => {
   const [y, m, d] = pastStops[pastStops.length - 1].date.split("-");
   return `${Number(m)}/${Number(d)}/${y.slice(2)}`;
 })();
 
-const mapsHref = `https://maps.apple.com/?q=${encodeURIComponent(`${nextStop.venue}, ${nextStop.address}`)}`;
-
 export default function Page() {
   return (
     <>
-      <a className="skip" href="#board">Skip to the next party</a>
+      <a className="skip" href="#board">Skip to the next stop</a>
       <SiteBar />
       <main id="top">
         <Hero>
           <section id="board" className="wrap board-wrap" aria-labelledby="board-title" tabIndex={-1}>
-            <div className="board">
-              <div className="board-row">
-                <span className="bullet" aria-hidden="true">L</span>
-                <h2 id="board-title" className="board-dest">OTL Presents: {nextStop.name}</h2>
-                <p className="board-eta">
-                  {eta}
-                  <small><Countdown start={nextStop.start} end={nextStop.end} /></small>
-                </p>
-              </div>
-              <p className="board-sub">{nextStop.venue} · {nextStop.address}</p>
-            </div>
-
-            <div className="stop-grid">
-              <figure className="poster">
-                <img
-                  src={nextStop.poster.src}
-                  srcSet={nextStop.poster.srcSet}
-                  sizes="(min-width: 900px) 560px, 100vw"
-                  width={nextStop.poster.width}
-                  height={nextStop.poster.height}
-                  alt={nextStop.poster.alt}
-                  decoding="async"
-                />
-              </figure>
-              <div className="stop-copy">
-                <p className="lede">{nextStop.blurb}</p>
-                <dl className="facts">
-                  <div><dt>Sounds by</dt><dd>{nextStop.sounds.join(", ")}</dd></div>
-                  <div><dt>Where</dt><dd>{nextStop.venue}<br />{nextStop.address}</dd></div>
-                  <div><dt>Doors</dt><dd>{eta.replace(" | ", ", ")}</dd></div>
-                  <div><dt>On the decks</dt><dd>{nextStop.genres.join(", ")}</dd></div>
-                </dl>
-                <div className="actions">
-                  <RsvpLink className="cta" after={site.afterParty}>
-                    <WaveIcon />
-                    Tap in to RSVP
-                  </RsvpLink>
-                  <a className="cta cta-ghost" href={mapsHref} target="_blank" rel="noopener">
-                    Get directions
-                  </a>
-                </div>
-                <p className="note">{nextStop.note}</p>
-              </div>
-            </div>
+            {nextStop ? <NextBoard stop={nextStop} /> : <BetweenBoard />}
           </section>
         </Hero>
 
@@ -107,7 +55,7 @@ export default function Page() {
             <span className="bullet" aria-hidden="true">L</span>
             <h2 id="line-title" className="sign-name">{lineTitle}</h2>
           </div>
-          <LineMap stops={line} start={nextStop.start} end={nextStop.end} />
+          <LineMap stops={line} start={nextStop?.start} end={nextStop?.end} />
         </section>
 
         <section className="wrap block list-block" aria-labelledby="list-title">
@@ -135,6 +83,95 @@ export default function Page() {
         </div>
         <p className="fine">{site.fine}</p>
       </footer>
+    </>
+  );
+}
+
+/** The departure board for an announced party. */
+function NextBoard({ stop }: { stop: Stop }) {
+  const d = new Date(stop.start);
+  const day = d.toLocaleDateString("en-US", { weekday: "short", month: "numeric", day: "numeric", timeZone: "America/New_York" }).replace(",", "");
+  const time = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York" }).replace(":00", "").replace(" ", "");
+  const eta = `${day} | ${time}`.toUpperCase();
+  const mapsHref = `https://maps.apple.com/?q=${encodeURIComponent(`${stop.venue}, ${stop.address}`)}`;
+  return (
+    <>
+      <div className="board">
+        <div className="board-row">
+          <span className="bullet" aria-hidden="true">L</span>
+          <h2 id="board-title" className="board-dest">OTL Presents: {stop.name}</h2>
+          <p className="board-eta">
+            {eta}
+            <small><Countdown start={stop.start} end={stop.end} /></small>
+          </p>
+        </div>
+        <p className="board-sub">{stop.venue} · {stop.address}</p>
+      </div>
+
+      <div className="stop-grid">
+        <figure className="poster">
+          <img
+            src={stop.poster.src}
+            srcSet={stop.poster.srcSet}
+            sizes="(min-width: 900px) 560px, 100vw"
+            width={stop.poster.width}
+            height={stop.poster.height}
+            alt={stop.poster.alt}
+            decoding="async"
+          />
+        </figure>
+        <div className="stop-copy">
+          <p className="lede">{stop.blurb}</p>
+          <dl className="facts">
+            <div><dt>Sounds by</dt><dd>{stop.sounds.join(", ")}</dd></div>
+            <div><dt>Where</dt><dd>{stop.venue}<br />{stop.address}</dd></div>
+            <div><dt>Doors</dt><dd>{eta.replace(" | ", ", ")}</dd></div>
+            <div><dt>On the decks</dt><dd>{stop.genres.join(", ")}</dd></div>
+          </dl>
+          <div className="actions">
+            <RsvpLink className="cta" after={site.afterParty}>
+              <WaveIcon />
+              Tap in to RSVP
+            </RsvpLink>
+            <a className="cta cta-ghost" href={mapsHref} target="_blank" rel="noopener">
+              Get directions
+            </a>
+          </div>
+          <p className="note">{stop.note}</p>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/** The board between parties: nothing announced yet, so it sends people to where the next one drops. */
+function BetweenBoard() {
+  return (
+    <>
+      <div className="board">
+        <div className="board-row">
+          <span className="bullet" aria-hidden="true">L</span>
+          <h2 id="board-title" className="board-dest">{between.title}</h2>
+          <p className="board-eta">
+            {between.eta}
+            <small>{between.etaNote}</small>
+          </p>
+        </div>
+        <p className="board-sub">{site.sounds.join(" · ")}</p>
+      </div>
+
+      <div className="stop-between">
+        <p className="lede">{between.line}</p>
+        <div className="actions">
+          <a className="cta" href={site.instagram.href} target="_blank" rel="noopener">
+            <InstagramIcon />
+            {site.afterParty}
+          </a>
+          <a className="cta cta-ghost" href={list.href} target="_blank" rel="noopener">
+            {list.cta}
+          </a>
+        </div>
+      </div>
     </>
   );
 }
